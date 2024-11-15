@@ -2,14 +2,13 @@ import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import { baseURL } from '../Components/Propertylist';
 import Navbar from '../Components/Navbar';
-import { base } from 'framer-motion/client';
 
 interface Service {
   _id: string;
   servicetype: string;
   dateofservice: string;
   costofservice: number;
-  property: string;
+  property: Property;
 }
 
 interface NewService {
