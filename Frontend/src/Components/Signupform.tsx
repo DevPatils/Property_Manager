@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // Ensure axios is installed
 import Navbar from './Navbar';
+import { useNavigate } from 'react-router-dom';
 const SignupLoginForm = () => {
   const [isSignup, setIsSignup] = useState(true);
   const [formData, setFormData] = useState({
@@ -10,7 +11,7 @@ const SignupLoginForm = () => {
   });
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
-
+  const navigate=useNavigate();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -27,6 +28,7 @@ const SignupLoginForm = () => {
       setMessage(response.data.message);
       localStorage.setItem('auth-token', response.data.token); // Store token in local storage
       setFormData({ name: '', email: '', password: '' }); // Clear form data
+      navigate('/dashboard'); // Redirect to dashboard
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         setError(err.response.data.error);
@@ -39,7 +41,7 @@ const SignupLoginForm = () => {
   return (
     <>
       <Navbar />
-      <div className="max-w-md mx-auto mt-10 p-5 bg-white rounded-lg shadow-md">
+      <div className="max-w-md mx-auto mt-[180px] p-5 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-4">
           {isSignup ? 'Sign Up' : 'Login'}
         </h2>

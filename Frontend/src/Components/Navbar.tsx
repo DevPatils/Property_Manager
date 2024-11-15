@@ -1,6 +1,14 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Navbar = () => (
+const Navbar = () => {
+  
+  const token = localStorage.getItem('auth-token');
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem('auth-token');
+    navigate('/');
+  };
+  return(
   <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-purple-600 via-purple-500 to-purple-700 shadow-lg z-50">
     <div className="flex justify-between items-center px-4 lg:px-8 py-4">
       {/* Logo - Extreme Left */}
@@ -29,15 +37,24 @@ const Navbar = () => (
         >
           Services Dashboard
         </Link>
-        <Link
-          to="/signup"
-          className="bg-white text-purple-700 px-4 py-2 rounded-full hover:bg-gray-200 transition-all duration-300 shadow-md"
-        >
-          Sign Up
-        </Link>
+        {token ? (
+            <button
+              onClick={handleLogout}
+              className="bg-white text-purple-700 px-4 py-2 rounded-full hover:bg-gray-200 transition-all duration-300 shadow-md"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              to="/signup"
+              className="bg-white text-purple-700 px-4 py-2 rounded-full hover:bg-gray-200 transition-all duration-300 shadow-md"
+            >
+              Sign Up
+            </Link>
+          )}
       </div>
     </div>
   </nav>
-);
+)};
 
 export default Navbar;
