@@ -56,7 +56,7 @@ Propertyrouter.get('/getpropertybyUser', async (req, res) => {
     }
     try {
         const userProperty = await User.findById(userid).populate('userProperty');
-        res.status(200).json({ userProperty });
+        res.status(200).json( userProperty.userProperty );
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const Userrouter = require('./routes/Userrouter');
 const Propertyrouter = require('./routes/Propertyrouter');
+const serviceRouter = require('./routes/ServiceRouter');
 
 const app = express();
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(cors());
 
 app.use('/user', Userrouter);
 app.use('/property', Propertyrouter);
+app.use('/service', serviceRouter);
 app.get('/', (req, res) => {
 
     res.send('Server is running');

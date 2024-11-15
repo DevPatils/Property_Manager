@@ -6,13 +6,14 @@ const serviceRouter = Router();
 serviceRouter.post('/addService', async (req, res) => {
     const { servicetype, dateofservice, costofservice, property } = req.body;
     const token = req.header('auth-token');
+    console.groupEnd(token);
 
     if (!token) {
         return res.status(401).json({ message: 'Access Denied' });
     }
 
     try {
-        const user = jwt.verify(token, process.env.TOKEN_SECRET);
+        const user = jwt.verify(token, process.env.JWT_SECRET);
         if (!user) {
             return res.status(401).json({ message: 'Access Denied' });
         }
@@ -59,12 +60,12 @@ serviceRouter.get('/getServicesByUser', async (req, res) => {
     }
 
     try {
-        const user = jwt.verify(token, process.env.TOKEN_SECRET);
+        const user = jwt.verify(token, process.env.JWT_SECRET);
         if (!user) {
             return res.status(401).json({ message: 'Access Denied' });
         }
 
-        const services = await Service.find({ user: user.userId });
+        const services = await Service.find({ user: user.userId }).populate('property', 'propertyname propertytype address image');
         res.status(200).json({ services });
     } catch (error) {
         console.error(error);
@@ -80,7 +81,7 @@ serviceRouter.delete('/deleteService/:id', async (req, res) => {
         return res.status(401).json({ message: 'Access Denied' });
     }
     try {
-        const user = jwt.verify(token, process.env.TOKEN_SECRET);
+        const user = jwt.verify(token, process.env.JWT_SECRET);``
         if (!user) {
             return res.status(401).json({ message: 'Access Denied' });
         }
